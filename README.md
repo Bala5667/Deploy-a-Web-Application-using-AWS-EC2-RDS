@@ -14,3 +14,47 @@ o	Allow SSH (Port 22) – For remote access.
 o	Allow HTTP (Port 80) – To serve the website.
 •	Click on Launch and download the key pair (.pem file) for SSH access.
 
+
+•	Create a Subnet in the Availability Zone
+•	Navigate to the VPC Console → Click on Subnets.
+•	Click Create Subnet and select the VPC where the EC2 instance is running.
+•	Assign an Availability Zone (e.g., us-east-1a).
+•	Allocate an IP address range (CIDR block).
+•	Click Create.
+•	Create an RDS MySQL Database and Integrate it with EC2
+•	Navigate to the AWS RDS Console.
+•	Click Create Database and choose MySQL.
+•	Select Standard Create and choose a DB instance type (db.t3.micro for free tier).
+•	Under Connectivity, select: 
+o	VPC: The same as the EC2 instance.
+o	Subnet Group: Use the previously created subnet.
+o	Public Access: Enable if the database needs to be accessed from outside AWS.
+•	Create a new security group and allow MySQL port (3306).
+•	Set a Master Username and Password for database access.
+•	Click Create Database and wait for the status to become Available.
+
+•	Connect to EC2 Using PuTTY
+•	Download and install PuTTY.
+•	Convert the .pem key file to .ppk using PuTTYgen.
+•	Open PuTTY: 
+o	Enter EC2 Public IP under Host Name.
+o	Under SSH → Auth, upload the private key (.ppk).
+•	Click Open and login as ubuntu (for Ubuntu) or ec2-user (for Amazon Linux 2).
+
+Install MySQL and Connect to the RDS Database
+
+Update System
+
+sudo apt update
+Install MySQL Client
+
+sudo apt install mysql-server -y
+Start MySQL Service
+
+sudo systemctl start mysql.service
+Connect to the RDS MySQL Databasebash
+
+mysql -h database-mysql.ckhqewgcs9xu.us-east-1.rds.amazonaws.com -P 3306 -u admin -p
+•	Replace database-mysql.ckhqewgcs9xu.us-east-1.rds.amazonaws.com with your actual RDS endpoint.
+•	Enter the password when prompted.Then we can access the database
+
